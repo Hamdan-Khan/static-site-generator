@@ -1,3 +1,4 @@
+mod renderer;
 use std::fs;
 use std::io;
 use std::path::{Path, PathBuf};
@@ -40,16 +41,17 @@ fn main() -> io::Result<()> {
         let parser = Parser::new(&md_content);
         html::push_html(&mut html_output, parser);
         
-        // read html template
-        let template = fs::read_to_string("templates/base.html")?;
-        
-        // replace placeholder with parsed content
-        let final_html = template.replace("<!-- {{ content }} -->", &html_output);
-
         // construct file name
         let relative_path = p.strip_prefix(&base_path)
            .expect("path not present in the specified content dir");
         let file_name = relative_path.with_extension("html").display().to_string();
+
+        // render parsed content
+        let final_html = renderer::render_html(&html_output,
+            relative_path.with_extension("").display().to_string()).
+            expect("Couldn't render the content");
+
+        println!("{}",final_html);
         
         fs::write(format!("{0}/{1}", BUILD_DIR, file_name), final_html)?;
     }
