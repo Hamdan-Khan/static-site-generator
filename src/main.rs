@@ -1,15 +1,62 @@
 use std::fs;
 use std::io;
-use std::path::Path;
+use std::path::{Path, PathBuf};
+use pulldown_cmark::{Parser, html};
+
+const CONTENT_DIR : &str = "content";
+const STATIC_DIR : &str = "static";
+const BUILD_DIR : &str = "public";
 
 fn main() -> io::Result<()> {
-    let path = Path::new("content");
-    
-    for entry in fs::read_dir(path)? {
-        let entry = entry?;
-        let path = entry.path();
-        println!("Name: {}", path.display());
+    let base_path = Path::new(CONTENT_DIR);
+    let mut file_paths: Vec<PathBuf> = vec![];
+
+    // read content directory and collect md file paths
+    for entry in fs::read_dir(base_path)? {
+        let path = entry?.path();
+        println!("{}",path.display());
+        if path.extension().and_then(|e| e.to_str()) == Some("md") {
+            file_paths.push(path);
+        }
+    }
+
+    // create a fresh build dir
+    fs::remove_dir_all(BUILD_DIR)?;
+    fs::create_dir_all(BUILD_DIR)?;
+
+    // copy static files into build dir
+    for static_file in fs::read_dir(STATIC_DIR)? {
+        let static_file_path = static_file?.path();
+        let relative_path = static_file_path.strip_prefix(&STATIC_DIR)
+            .expect("path not present in the specified content dir");
+        fs::copy(&static_file_path,format!("{0}/{1}", BUILD_DIR, relative_path.display().to_string()))?;
+    }
+
+    // process every md file
+    for p in &file_paths {
+        let md_content = fs::read_to_string(p)?;
+        // parses md content into html
+        let mut html_output = String::new();
+        let parser = Parser::new(&md_content);
+        html::push_html(&mut html_output, parser);
+        
+        // read html template
+        let template = fs::read_to_string("templates/base.html")?;
+        
+        // replace placeholder with parsed content
+        let final_html = template.replace("<!-- {{ content }} -->", &html_output);
+
+        // construct file name
+        let relative_path = p.strip_prefix(&base_path)
+           .expect("path not present in the specified content dir");
+        let file_name = relative_path.with_extension("html").display().to_string();
+        
+        fs::write(format!("{0}/{1}", BUILD_DIR, file_name), final_html)?;
     }
 
     Ok(())
 }
+
+// todos:
+// make it recursive
+// better template injection format

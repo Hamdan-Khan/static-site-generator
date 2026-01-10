@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Page metadata -->
+    <title><!-- {{ title }} -->My Blog</title>
+    <meta name="description" content="<!-- {{ description }} -->" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <a href="/">My Blog</a>
+      </nav>
+    </header>
+
+    <main>
+      <article>
+        <header>
+          <h1><!-- {{ title }} --></h1>
+
+          <p>
+            <time datetime="<!-- {{ date_iso }} -->">
+              <!-- {{ date_human }} -->
+            </time>
+            ·
+            <span><!-- {{ author }} --></span>
+          </p>
+        </header>
+
+        <!-- Article content -->
+        <section>
+          <!-- {{ content }} -->
+        </section>
+
+        <!-- Tags -->
+        <footer>
+          <ul>
+            <!--
+          {{#tags}}
+            <li><a href="/tags/{{ tag }}/">{{ tag }}</a></li>
+          {{/tags}}
+          --></ul>
+        </footer>
+      </article>
+    </main>
+
+    <footer>
+      <p>
+        ©
+        <!-- {{ year }} -->
+        My Blog ·
+        <a href="/about/">About</a>
+      </p>
+    </footer>
+  </body>
+</html>

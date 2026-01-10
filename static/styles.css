@@ -1,0 +1,28 @@
+body {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+}
+
+header,
+footer {
+  margin-bottom: 2rem;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+time {
+  color: #666;
+  font-size: 0.9rem;
+}
