@@ -1,8 +1,9 @@
+mod parser;
 mod renderer;
 use std::fs;
 use std::io;
 use std::path::{Path, PathBuf};
-use pulldown_cmark::{Parser, html};
+use crate::parser::parse_content;
 
 const CONTENT_DIR : &str = "content";
 const STATIC_DIR : &str = "static";
@@ -36,10 +37,10 @@ fn main() -> io::Result<()> {
     // process every md file
     for p in &file_paths {
         let md_content = fs::read_to_string(p)?;
+        
         // parses md content into html
-        let mut html_output = String::new();
-        let parser = Parser::new(&md_content);
-        html::push_html(&mut html_output, parser);
+        let (parsed_content, front_matter) = parse_content(md_content.as_str())
+            .expect("Error parsing content or front matter");
         
         // construct file name
         let relative_path = p.strip_prefix(&base_path)
@@ -47,11 +48,8 @@ fn main() -> io::Result<()> {
         let file_name = relative_path.with_extension("html").display().to_string();
 
         // render parsed content
-        let final_html = renderer::render_html(&html_output,
-            relative_path.with_extension("").display().to_string()).
+        let final_html = renderer::render_html(&parsed_content, front_matter).
             expect("Couldn't render the content");
-
-        println!("{}",final_html);
         
         fs::write(format!("{0}/{1}", BUILD_DIR, file_name), final_html)?;
     }

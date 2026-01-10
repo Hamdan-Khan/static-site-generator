@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use tera::{Tera, Context};
 use lazy_static::lazy_static;
 
@@ -15,11 +16,12 @@ lazy_static! {
     };
 }
 
-pub fn render_html(content: &str, title: String) -> Result<String, tera::Error>{
+pub fn render_html(content: &str, metadata: HashMap<String,String>) -> Result<String, tera::Error>{
     let mut context = Context::new();
-    context.insert("title", title.as_str());
+    // makes the frontmatter metadata available in context
+    context.extend(Context::from_serialize(metadata)?);
     context.insert("content", content);
-
+    // todo: choose template using metadata
     let rendered = TEMPLATES.render("base.html", &context)?;
     Ok(rendered)
 }
