@@ -1,15 +1,20 @@
 mod parser;
 mod renderer;
 mod utils;
+mod context;
 use std::fs;
 use std::io;
 use std::path::{Path, PathBuf};
+use crate::context::get_config;
 use crate::parser::parse_content;
 use crate::utils::write_file;
 
+// dirs
 const CONTENT_DIR : &str = "content";
 const STATIC_DIR : &str = "static";
 const BUILD_DIR : &str = "public";
+// files
+const CONFIG_FILE : &str = "config.yaml";
 
 fn main() -> io::Result<()> {
     let base_path = Path::new(CONTENT_DIR);
@@ -28,6 +33,9 @@ fn main() -> io::Result<()> {
     fs::remove_dir_all(BUILD_DIR)?;
     fs::create_dir_all(BUILD_DIR)?;
 
+
+    let config_context = get_config().expect("Error parsing config context");
+
     // process every md file for blogs
     for p in &file_paths {
         let md_content = fs::read_to_string(p)?;
@@ -42,14 +50,14 @@ fn main() -> io::Result<()> {
         let file_name = relative_path.with_extension("html").display().to_string();
 
         // render parsed content
-        let final_html = renderer::render_html(&parsed_content, front_matter).
+        let final_html = renderer::render_html(&parsed_content, front_matter, &config_context).
             expect("Couldn't render the content");
         
         write_file( file_name, final_html)?;
     }
 
     // main file for home page
-    let index_page = renderer::render_index()
+    let index_page = renderer::render_index(&config_context)
         .expect("Couldn't render home page");
     write_file( "index.html".to_string(), index_page)?;
 
@@ -65,5 +73,4 @@ fn main() -> io::Result<()> {
 }
 
 // todos:
-// make it recursive
-// better template injection format
+// make file discovery recursive
