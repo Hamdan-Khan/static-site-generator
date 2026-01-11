@@ -4,37 +4,42 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ title }}</title>
-    <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="stylesheet" href="./styles.css" />
   </head>
-
   <body>
     <header>
-      <nav>
-        <a href="/">My Blog</a>
+      <nav class="navbar">
+        <div class="nav-left">
+          <a href="/" class="site-name">{{ name }}</a>
+        </div>
+        {% if blogs %}
+        <div class="nav-right">
+          <a href="/">Home</a>
+          <a href="/blog/">Blog</a>
+        </div>
+        {% endif %}
       </nav>
+      {% if bio %}
+      <p class="bio">{{ bio }}</p>
+      {% endif %}
     </header>
 
-    <main>
-      <article>
-        <header>
-          <h1>{{ title }}</h1>
+    <main>{% block main %} {% endblock main %}</main>
 
-          <p>·</p>
-        </header>
-
-        <section>{{content | safe}}</section>
-
-        <footer>
-          <ul></ul>
-        </footer>
-      </article>
-    </main>
-
-    <footer>
-      <p>
-        © My Blog ·
-        <a href="/about/">About</a>
+    <footer class="site-footer">
+      {% if email %}
+      <p class="email">
+        <a href="mailto:{{ email }}">{{ email }}</a>
       </p>
+      {% endif %} {% if socials %}
+      <div class="socials">
+        {% for key, value in socials %}
+        <a href="{{ value }}" target="_blank" rel="noopener noreferrer"
+          >{{ key }}</a
+        >
+        {% endfor %}
+      </div>
+      {% endif %}
     </footer>
   </body>
 </html>
