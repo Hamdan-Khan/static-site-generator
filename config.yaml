@@ -1,5 +1,8 @@
+# Required
 name: Hamdan
 bio: Software Engineer
 email: hamdankhan212@gmail.com
-baseurl:
 description: Test
+
+# Optional
+baseurl: http://127.0.0.1:5500/public/

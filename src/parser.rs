@@ -7,7 +7,7 @@ pub struct ParsedContent {
 }
 
 const REQUIRED_METADATA: [&str; 1] = ["title"];
-const METADATA: [&str; 3] = ["title", "description", "layout"];
+const METADATA: [&str; 4] = ["title", "description", "layout", "date"];
 
 /**
   splits the markdown content into two parts:

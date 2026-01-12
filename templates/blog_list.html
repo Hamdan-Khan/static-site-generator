@@ -1,0 +1,12 @@
+{% extends "base.html" %} {% block main %}
+<article class="blog-post">
+  <header class="blog-header">
+    {% for blog in blogs %}
+    <a href="{{ baseurl }}{{ blog }}.html">{{ blog }}</a>
+    {% endfor %} {% if date %}
+    <time datetime="{{ date }}">{{ date }}</time>
+    {% endif %}
+  </header>
+  <h4>BLOG LIST</h4>
+</article>
+{% endblock main %}

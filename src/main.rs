@@ -7,6 +7,7 @@ use std::io;
 use std::path::{Path, PathBuf};
 use crate::context::get_config;
 use crate::parser::parse_content;
+use crate::utils::get_stripped_filename;
 use crate::utils::write_file;
 
 // dirs
@@ -33,8 +34,19 @@ fn main() -> io::Result<()> {
     fs::remove_dir_all(BUILD_DIR)?;
     fs::create_dir_all(BUILD_DIR)?;
 
+    let config_context = get_config(&file_paths);
 
-    let config_context = get_config().expect("Error parsing config context");
+    // main file for home page
+    let index_page = renderer::render_home(&config_context)
+        .expect("Couldn't render home page");
+    write_file( "index.html".to_string(), index_page)?;
+
+    // blog list page
+    if config_context.contains_key("blogs") {
+        let blogs_list_page = renderer::render_blogs_list(&config_context)
+        .expect("Couldn't render blog list page");
+        write_file( "blogs.html".to_string(), blogs_list_page)?;
+    }
 
     // process every md file for blogs
     for p in &file_paths {
@@ -45,8 +57,7 @@ fn main() -> io::Result<()> {
             .expect("Error parsing content or front matter");
         
         // construct file name
-        let relative_path = p.strip_prefix(&base_path)
-           .expect("path not present in the specified content dir");
+        let relative_path = get_stripped_filename(p);
         let file_name = relative_path.with_extension("html").display().to_string();
 
         // render parsed content
@@ -55,11 +66,6 @@ fn main() -> io::Result<()> {
         
         write_file( file_name, final_html)?;
     }
-
-    // main file for home page
-    let index_page = renderer::render_index(&config_context)
-        .expect("Couldn't render home page");
-    write_file( "index.html".to_string(), index_page)?;
 
     // copy static files into build dir
     for static_file in fs::read_dir(STATIC_DIR)? {
@@ -73,4 +79,7 @@ fn main() -> io::Result<()> {
 }
 
 // todos:
+// add projects, experience, blogs, and socials sections to main page
+// fix styles for most of the stuff
+// add metadata like description, name, etc. to SEO
 // make file discovery recursive

@@ -10,12 +10,12 @@
     <header>
       <nav class="navbar">
         <div class="nav-left">
-          <a href="/" class="site-name">{{ name }}</a>
+          <a href="{{ baseurl }}" class="site-name">{{ name }}</a>
         </div>
         {% if blogs %}
         <div class="nav-right">
-          <a href="/">Home</a>
-          <a href="/blog/">Blog</a>
+          <a href="{{ baseurl }}">Home</a>
+          <a href="{{ baseurl }}blogs.html">Blogs</a>
         </div>
         {% endif %}
       </nav>

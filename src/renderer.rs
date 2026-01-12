@@ -16,8 +16,15 @@ lazy_static! {
     };
 }
 
+pub fn render_blogs_list(config_context: &Context) -> Result<String, tera::Error>{
+    let mut context = Context::from(config_context.clone());
+    context.insert("title", "Hamdan Khan");
+    let rendered = TEMPLATES.render("blog_list.html", &context)?;
+    Ok(rendered)
+}
+
 /** renders home page */
-pub fn render_index(config_context: &Context) -> Result<String, tera::Error>{
+pub fn render_home(config_context: &Context) -> Result<String, tera::Error>{
     let mut context = Context::from(config_context.clone());
     context.insert("title", "Hamdan Khan");
 
