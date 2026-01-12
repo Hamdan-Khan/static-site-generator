@@ -1,0 +1,53 @@
+{% extends "base.html" %} {% block main %} {% if projects or sideprojects %}
+<section class="projects-section">
+  {% if projects %}
+  <h2>Projects</h2>
+  <ul class="projects-list">
+    {% for project in projects %}
+    <li class="project-item">
+      <span class="project-title">{{ project.name }}</span>:
+      <span class="project-description">{{ project.description }}</span>
+      <span class="project-links">
+        ( {% if project.link %}
+        <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer"
+          >link</a
+        >
+        {% endif %} {% if project.link and project.github %}
+        <span class="separator">|</span>
+        {% endif %} {% if project.github %}
+        <a href="{{ project.github }}" target="_blank" rel="noopener noreferrer"
+          >github</a
+        >
+        {% endif %} )
+      </span>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %} {% if sideprojects %}
+  <h3>Some side projects</h3>
+  <ul class="projects-list">
+    {% for project in sideprojects %}
+    <li class="project-item">
+      <span class="project-title">{{ project.name }}</span>:
+      <span class="project-description">{{ project.description }}</span>
+      <span class="project-links">
+        ( {% if project.link %}
+        <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer"
+          >link</a
+        >
+        {% endif %} {% if project.link and project.github %}
+        <span class="separator">|</span>
+        {% endif %} {% if project.github %}
+        <a href="{{ project.github }}" target="_blank" rel="noopener noreferrer"
+          >github</a
+        >
+        {% endif %} )
+      </span>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %} {% if extratest %}
+  <h2>{{extratest}}</h2>
+  {% endif %}
+</section>
+{% endif %} {% endblock main %}

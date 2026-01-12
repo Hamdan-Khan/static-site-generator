@@ -82,4 +82,5 @@ fn main() -> io::Result<()> {
 // add projects, experience, blogs, and socials sections to main page
 // fix styles for most of the stuff
 // add metadata like description, name, etc. to SEO
+// make parsing of frontmatter more concrete
 // make file discovery recursive

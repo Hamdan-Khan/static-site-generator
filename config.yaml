@@ -5,4 +5,28 @@ email: hamdankhan212@gmail.com
 description: Test
 
 # Optional
+
 baseurl: http://127.0.0.1:5500/public/
+
+# Projects
+
+projects:
+  - name: "Test - Shell"
+    description: "A minimal shell in C"
+    link: https://google.com # optional
+    github: "https://github.com/Hamdan-Khan/shell"
+
+  - name: "Shell 2"
+    description: "A minimal shell in C"
+    github: "https://github.com/Hamdan-Khan/shell"
+
+sideprojects:
+  - name: "lorem ipsem"
+    description: "A minimal shell in C"
+    github: "https://github.com/Hamdan-Khan/shell"
+
+  - name: "lorem ipsem"
+    description: "A minimal shell in C"
+    github: "https://github.com/Hamdan-Khan/shell"
+
+extratest: un typed extra var

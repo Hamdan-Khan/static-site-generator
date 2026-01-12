@@ -28,7 +28,7 @@ pub fn render_home(config_context: &Context) -> Result<String, tera::Error>{
     let mut context = Context::from(config_context.clone());
     context.insert("title", "Hamdan Khan");
 
-    let rendered = TEMPLATES.render("base.html", &context)?;
+    let rendered = TEMPLATES.render("home.html", &context)?;
     Ok(rendered)
 }
 

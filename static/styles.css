@@ -7,43 +7,36 @@ body {
   line-height: 1.6;
   color: #333;
 }
-
 /* Header & Navigation */
 header {
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #e0e0e0;
 }
-
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.75rem;
 }
-
 .nav-left .site-name {
   font-size: 1.25rem;
   font-weight: 600;
   text-decoration: none;
   color: #111;
 }
-
 .nav-right {
   display: flex;
   gap: 1.5rem;
 }
-
 .nav-right a {
   text-decoration: none;
   color: #666;
   transition: color 0.2s ease;
 }
-
 .nav-right a:hover {
   color: #111;
 }
-
 /* Bio */
 .bio {
   margin: 0;
@@ -51,16 +44,63 @@ header {
   font-size: 0.95rem;
   font-style: italic;
 }
+/* Projects Section */
+.projects-section {
+  margin: 2rem 0 3rem;
+}
+
+.projects-section h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #111;
+}
+
+.projects-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.project-item {
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.project-item::before {
+  content: "–";
+  margin-right: 0.5rem;
+  color: #999;
+}
+
+.project-title {
+  font-weight: 600;
+  color: #111;
+}
+
+.project-description {
+  color: #666;
+}
+
+.project-links a {
+  font-weight: 500;
+}
+
+.project-links a:hover {
+  text-decoration: underline;
+}
+
+.project-links .separator {
+  margin: 0 0.35rem;
+  color: #999;
+}
 
 /* Main Content */
 main {
   margin-bottom: 3rem;
 }
-
 article header {
   margin-bottom: 1.5rem;
 }
-
 /* Typography */
 h1,
 h2,
@@ -68,24 +108,20 @@ h3 {
   line-height: 1.25;
   color: #111;
 }
-
 h1 {
   font-size: 2rem;
   margin-bottom: 0.5rem;
 }
-
 /* Links */
 a {
   color: inherit;
   text-decoration: underline;
 }
-
 /* Time */
 time {
   color: #666;
   font-size: 0.9rem;
 }
-
 /* Footer */
 .site-footer {
   margin-top: 3rem;
@@ -93,22 +129,18 @@ time {
   border-top: 1px solid #e0e0e0;
   text-align: center;
 }
-
 .email {
   margin-bottom: 1rem;
   font-size: 0.95rem;
 }
-
 .email a {
   color: #666;
   text-decoration: none;
 }
-
 .email a:hover {
   color: #111;
   text-decoration: underline;
 }
-
 /* Socials */
 .socials {
   display: flex;
@@ -117,7 +149,6 @@ time {
   flex-wrap: wrap;
   margin-top: 0.75rem;
 }
-
 .socials a {
   color: #666;
   text-decoration: none;
@@ -125,57 +156,46 @@ time {
   text-transform: lowercase;
   transition: color 0.2s ease;
 }
-
 .socials a:hover {
   color: #111;
 }
-
 /* Responsive */
 @media (max-width: 600px) {
   body {
     margin: 1rem auto;
   }
-
   .navbar {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.75rem;
   }
-
   .nav-right {
     gap: 1rem;
   }
 }
-
 /* BLOGS */
 .blog-post {
   max-width: 100%;
 }
-
 .blog-header {
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #f0f0f0;
 }
-
 .blog-header h1 {
   margin-bottom: 0.75rem;
 }
-
 .blog-header time {
   display: block;
   font-size: 0.95rem;
 }
-
 .blog-content {
   font-size: 1.05rem;
 }
-
 .blog-content h2 {
   margin-top: 2rem;
   margin-bottom: 1rem;
 }
-
 .blog-content p {
   margin-bottom: 1rem;
 }
