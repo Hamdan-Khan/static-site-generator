@@ -4,7 +4,7 @@ body {
   margin: 2rem auto;
   padding: 0 1rem;
   font-family: system-ui, sans-serif;
-  line-height: 1.6;
+  line-height: 1.3;
   color: #333;
 }
 /* Header & Navigation */
@@ -16,11 +16,9 @@ header {
 .navbar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.75rem;
 }
 .nav-left .site-name {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 600;
   text-decoration: none;
   color: #111;
@@ -44,22 +42,78 @@ header {
   font-size: 0.95rem;
   font-style: italic;
 }
-/* Projects Section */
-.projects-section {
+
+/* Common Section Styles */
+.content-section {
   margin: 2rem 0 3rem;
 }
 
-.projects-section h2 {
+.section-header {
   font-size: 1.25rem;
   margin-bottom: 1rem;
   color: #111;
 }
 
-.projects-list {
+.plain-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
+.item-title {
+  font-weight: 600;
+  color: #111;
+}
+
+/* Experience Section */
+
+.experience-item {
+  margin-bottom: 2rem;
+}
+
+.experience-header-row,
+.experience-subheader-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.experience-header-row {
+  margin-bottom: 0.25rem;
+}
+
+.experience-subheader-row {
+  margin-bottom: 0.75rem;
+}
+
+.experience-date {
+  color: #666;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.experience-role {
+  font-weight: 500;
+  color: #444;
+  font-size: 0.9rem;
+}
+
+.experience-location {
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.experience-description {
+  color: #444;
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+}
+
+/* Projects Section */
 
 .project-item {
   margin-bottom: 0.75rem;
@@ -70,11 +124,6 @@ header {
   content: "–";
   margin-right: 0.5rem;
   color: #999;
-}
-
-.project-title {
-  font-weight: 600;
-  color: #111;
 }
 
 .project-description {
@@ -151,9 +200,7 @@ time {
 }
 .socials a {
   color: #666;
-  text-decoration: none;
   font-size: 0.9rem;
-  text-transform: lowercase;
   transition: color 0.2s ease;
 }
 .socials a:hover {

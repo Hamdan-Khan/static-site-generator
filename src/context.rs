@@ -21,6 +21,16 @@ struct SideProject {
 }
 
 #[derive(Deserialize, Serialize)]
+struct Experience {
+    name: String,
+    role: String,
+    startdate: String,
+    enddate: Option<String>,
+    location: String,
+    description: Option<String>,
+}
+
+#[derive(Deserialize, Serialize)]
 struct Config {
     name: String,
     bio: String,
@@ -29,6 +39,7 @@ struct Config {
     baseurl: Option<String>,
     projects: Option<Vec<Project>>,
     sideprojects: Option<Vec<SideProject>>,
+    experience: Option<Vec<Experience>>,
     #[serde(flatten)]
     extra: HashMap<String, Value>, // un-typed config vars will be stored here
 }

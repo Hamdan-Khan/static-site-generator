@@ -1,5 +1,5 @@
 # Required
-name: Hamdan
+name: Hamdan Khan
 bio: Software Engineer
 email: hamdankhan212@gmail.com
 description: Test
@@ -7,6 +7,28 @@ description: Test
 # Optional
 
 baseurl: http://127.0.0.1:5500/public/
+
+socials:
+  github: https://github.com/hamdankhan
+  twitter: https://twitter.com/hamdankhan
+  linkedin: https://www.linkedin.com/in/hamdankhan
+  website: https://hamdankhan.dev
+
+# Experience
+
+experience:
+  - name: "Tech Company Inc."
+    role: "Software Engineer"
+    startdate: "May, 2023"
+    enddate: "Present"
+    location: "Remote"
+    description: "Did absolutely nothing"
+
+  - name: "Another Startup"
+    role: "Software Engineer"
+    startdate: "June, 2025"
+    location: "Remote"
+    description: "Did everything while i was there"
 
 # Projects
 

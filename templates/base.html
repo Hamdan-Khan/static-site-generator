@@ -11,6 +11,9 @@
       <nav class="navbar">
         <div class="nav-left">
           <a href="{{ baseurl }}" class="site-name">{{ name }}</a>
+          {% if bio %}
+          <p class="bio">{{ bio }}</p>
+          {% endif %}
         </div>
         {% if blogs %}
         <div class="nav-right">
@@ -19,19 +22,12 @@
         </div>
         {% endif %}
       </nav>
-      {% if bio %}
-      <p class="bio">{{ bio }}</p>
-      {% endif %}
     </header>
 
     <main>{% block main %} {% endblock main %}</main>
 
     <footer class="site-footer">
-      {% if email %}
-      <p class="email">
-        <a href="mailto:{{ email }}">{{ email }}</a>
-      </p>
-      {% endif %} {% if socials %}
+      {% if socials %}
       <div class="socials">
         {% for key, value in socials %}
         <a href="{{ value }}" target="_blank" rel="noopener noreferrer"
@@ -39,6 +35,10 @@
         >
         {% endfor %}
       </div>
+      {% endif %} {% if email %}
+      <p class="email">
+        <a href="mailto:{{ email }}">{{ email }}</a>
+      </p>
       {% endif %}
     </footer>
   </body>
