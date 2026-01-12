@@ -220,6 +220,26 @@ time {
     gap: 1rem;
   }
 }
+
+/* Blog List Styles */
+.blog-item {
+  margin-bottom: 0.75rem;
+}
+
+.blog-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.blog-date {
+  color: #666;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
 /* BLOGS */
 .blog-post {
   max-width: 100%;

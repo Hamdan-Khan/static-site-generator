@@ -1,7 +1,7 @@
 ---
-title: hello
+title: test
 description: this will be parsed
 date: 12-01-2026
 ---
 
-HELLO WORLD!
+TEST!

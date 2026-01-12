@@ -4,7 +4,9 @@ use std::path::PathBuf;
 use serde::{Deserialize, Serialize};
 use serde_yaml::Value;
 use tera::Context;
-use crate::{CONFIG_FILE, utils::get_stripped_filename};
+use crate::parse_content;
+use crate::utils::get_stripped_filename;
+use crate::{CONFIG_FILE};
 
 #[derive(Deserialize, Serialize)]
 struct Project {
@@ -44,6 +46,13 @@ struct Config {
     extra: HashMap<String, Value>, // un-typed config vars will be stored here
 }
 
+#[derive(Deserialize, Serialize)]
+struct Blog {
+    path: String,
+    title: String,
+    date: Option<String>,
+}
+
 pub fn get_config(blog_paths: &Vec<PathBuf>) -> Context
 {
     let config = fs::read_to_string(CONFIG_FILE)
@@ -66,9 +75,21 @@ pub fn get_config(blog_paths: &Vec<PathBuf>) -> Context
 
     // if blog files exist, add their names lists into context to generate nav and stuff
     if blog_paths.len() > 0{
-        let mut blogs: Vec<String> = vec![];
+        let mut blogs: Vec<Blog> = vec![];
         for path in blog_paths {
-            blogs.push(get_stripped_filename(path).with_extension("").display().to_string());
+            let md_content = fs::read_to_string(path)
+                .expect("Error reading blog file");
+
+            // gets parsed frontmatter from blog contents
+            let (_, front_matter) = parse_content(md_content.as_str())
+                .expect("Error parsing content or front matter");
+
+            // adds frontmatter metadata to context
+            blogs.push(Blog {
+                path: get_stripped_filename(path).with_extension("").to_str().unwrap().to_string(),
+                title: front_matter.get("title").unwrap().as_str().to_string(),
+                date: front_matter.get("date").map(|d| d.as_str().to_string()),
+            });
         }
         context.insert("blogs", &blogs);
     }

@@ -24,7 +24,7 @@ fn main() -> io::Result<()> {
     // read content directory and collect md file paths
     for entry in fs::read_dir(base_path)? {
         let path = entry?.path();
-        println!("{}",path.display());
+        println!("Found blog file: {}",path.display());
         if path.extension().and_then(|e| e.to_str()) == Some("md") {
             file_paths.push(path);
         }
@@ -48,7 +48,7 @@ fn main() -> io::Result<()> {
         write_file( "blogs.html".to_string(), blogs_list_page)?;
     }
 
-    // process every md file for blogs
+    // process and render every md file for blogs
     for p in &file_paths {
         let md_content = fs::read_to_string(p)?;
         
@@ -64,7 +64,7 @@ fn main() -> io::Result<()> {
         let final_html = renderer::render_html(&parsed_content, front_matter, &config_context).
             expect("Couldn't render the content");
         
-        write_file( file_name, final_html)?;
+        write_file(file_name, final_html)?;
     }
 
     // copy static files into build dir
@@ -80,7 +80,6 @@ fn main() -> io::Result<()> {
 
 // todos:
 // add projects, experience, blogs, and socials sections to main page
-// fix styles for most of the stuff
 // add metadata like description, name, etc. to SEO
 // make parsing of frontmatter more concrete
 // make file discovery recursive
