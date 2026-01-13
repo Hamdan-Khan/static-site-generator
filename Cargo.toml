@@ -9,3 +9,9 @@ pulldown-cmark = "0.13.0"
 serde = { version = "1.0.228", features = ["derive"] }
 serde_yaml = "0.9.34"
 tera = "1.20.1"
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"
+repository = "https://github.com/Hamdan-Khan/static-site-generator"
