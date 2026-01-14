@@ -19,6 +19,7 @@ const CONFIG_FILE : &str = "config.yaml";
 
 fn main() -> io::Result<()> {
     let base_path = Path::new(CONTENT_DIR);
+    let build_dir = Path::new(BUILD_DIR);
     let mut file_paths: Vec<PathBuf> = vec![];
 
     // read content directory and collect md file paths
@@ -31,7 +32,9 @@ fn main() -> io::Result<()> {
     }
 
     // create a fresh build dir
-    fs::remove_dir_all(BUILD_DIR)?;
+    if build_dir.exists() {
+        fs::remove_dir_all(BUILD_DIR)?;
+    }
     fs::create_dir_all(BUILD_DIR)?;
 
     let config_context = get_config(&file_paths);
@@ -79,7 +82,6 @@ fn main() -> io::Result<()> {
 }
 
 // todos:
-// add projects, experience, blogs, and socials sections to main page
 // add metadata like description, name, etc. to SEO
 // make parsing of frontmatter more concrete
 // make file discovery recursive
