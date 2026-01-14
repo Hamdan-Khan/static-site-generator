@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <header>
+    <header class="divider-bottom-border">
       <nav class="navbar">
         <div class="nav-left">
           <a href="{{ baseurl }}" class="site-name">{{ name }}</a>
@@ -41,5 +41,44 @@
       </p>
       {% endif %}
     </footer>
+    <script>
+      // formats date "DD-MM-YYYY" to "DD MMM, YYYY" (e.g. "12-01-2026" to "12 January, 2026")
+      document.addEventListener("DOMContentLoaded", () => {
+        const months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+
+        document.querySelectorAll(".formatted-date").forEach((el) => {
+          const dateStr = el.textContent.trim();
+          const parts = dateStr.split("-");
+
+          if (parts.length === 3) {
+            const day = parseInt(parts[0], 10);
+            const monthIndex = parseInt(parts[1], 10) - 1;
+            const year = parts[2];
+
+            if (!isNaN(day) && !isNaN(monthIndex) && months[monthIndex]) {
+              let suffix = "th";
+              if (day % 10 === 1 && day !== 11) suffix = "st";
+              else if (day % 10 === 2 && day !== 12) suffix = "nd";
+              else if (day % 10 === 3 && day !== 13) suffix = "rd";
+
+              el.textContent = `${day}${suffix} ${months[monthIndex]}, ${year}`;
+            }
+          }
+        });
+      });
+    </script>
   </body>
 </html>

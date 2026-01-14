@@ -1,4 +1,5 @@
 use std::fs;
+use chrono::NaiveDate;
 use std::collections::HashMap;
 use std::path::PathBuf;
 use serde::{Deserialize, Serialize};
@@ -51,6 +52,7 @@ struct Blog {
     path: String,
     title: String,
     date: Option<String>,
+    featured: Option<bool>,
 }
 
 pub fn get_config(blog_paths: &Vec<PathBuf>) -> Context
@@ -89,9 +91,26 @@ pub fn get_config(blog_paths: &Vec<PathBuf>) -> Context
                 path: get_stripped_filename(path).with_extension("").to_str().unwrap().to_string(),
                 title: front_matter.get("title").unwrap().as_str().to_string(),
                 date: front_matter.get("date").map(|d| d.as_str().to_string()),
+                featured: front_matter.get("featured").map(|d| d.to_lowercase() == "true"),
             });
         }
+
+        // desc order of date published
+        blogs.sort_by(|a, b| {
+            let date_a = a.date.as_ref().and_then(|d| NaiveDate::parse_from_str(d, "%d-%m-%Y").ok());
+            let date_b = b.date.as_ref().and_then(|d| NaiveDate::parse_from_str(d, "%d-%m-%Y").ok());
+            date_b.cmp(&date_a)
+        });
         context.insert("blogs", &blogs);
+
+        // blogs with featured flag in front matter
+        let featured_blogs: Vec<&Blog> = blogs.iter()
+            .filter(|blog| blog.featured.unwrap_or(false))
+            .collect();
+        
+        if !featured_blogs.is_empty() {
+            context.insert("featured_blogs", &featured_blogs);
+        }
     }
 
     return context;

@@ -6,8 +6,9 @@ pub struct ParsedContent {
     content: String
 }
 
-const REQUIRED_METADATA: [&str; 1] = ["title"];
-const METADATA: [&str; 4] = ["title", "description", "layout", "date"];
+// allowed front matter fields
+const METADATA: [&str; 5] = ["title", "description", "layout", "date", "featured"];
+const REQUIRED_METADATA: [&str; 2] = ["title", "date"];
 
 /**
   splits the markdown content into two parts:

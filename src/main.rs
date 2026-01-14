@@ -18,16 +18,18 @@ const BUILD_DIR : &str = "public";
 const CONFIG_FILE : &str = "config.yaml";
 
 fn main() -> io::Result<()> {
-    let base_path = Path::new(CONTENT_DIR);
+    let content_dir = Path::new(CONTENT_DIR);
     let build_dir = Path::new(BUILD_DIR);
     let mut file_paths: Vec<PathBuf> = vec![];
 
     // read content directory and collect md file paths
-    for entry in fs::read_dir(base_path)? {
-        let path = entry?.path();
-        println!("Found blog file: {}",path.display());
-        if path.extension().and_then(|e| e.to_str()) == Some("md") {
-            file_paths.push(path);
+    if content_dir.exists() {
+        for entry in fs::read_dir(content_dir)? {
+            let path = entry?.path();
+            println!("Found blog file: {}",path.display());
+            if path.extension().and_then(|e| e.to_str()) == Some("md") {
+                file_paths.push(path);
+            }
         }
     }
 

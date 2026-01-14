@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% block main %} {% if experience %}
-<section class="content-section">
+<section class="divider-bottom-border">
   <h2 class="section-header">Experience</h2>
   <ul class="plain-list">
     {% for job in experience %}
@@ -23,10 +23,10 @@
   </ul>
 </section>
 {% endif %} {% if projects or sideprojects %}
-<section class="content-section">
+<section class="divider-bottom-border">
   {% if projects %}
   <h2 class="section-header">Projects</h2>
-  <ul class="plain-list">
+  <ul class="project-list">
     {% for project in projects %}
     <li class="project-item">
       <span class="item-title">{{ project.name }}</span>:
@@ -48,8 +48,8 @@
     {% endfor %}
   </ul>
   {% endif %} {% if sideprojects %}
-  <h3>Some side projects</h3>
-  <ul class="plain-list">
+  <h3>Other side projects</h3>
+  <ul class="project-list">
     {% for project in sideprojects %}
     <li class="project-item">
       <span class="item-title">{{ project.name }}</span>:
@@ -71,5 +71,23 @@
     {% endfor %}
   </ul>
   {% endif %}
+</section>
+{% endif %} {% if featured_blogs %}
+<section class="divider-bottom-border">
+  <h2 class="section-header">Featured Blogs</h2>
+  <ul class="plain-list">
+    {% for blog in featured_blogs %}
+    <li class="blog-item">
+      <div class="blog-item-header">
+        <a href="{{ baseurl }}{{ blog.path }}.html" class="item-title"
+          >{{ blog.title }}</a
+        >
+        {% if blog.date %}
+        <span class="blog-date">{{ blog.date }}</span>
+        {% endif %}
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
 </section>
 {% endif %} {% endblock main %}

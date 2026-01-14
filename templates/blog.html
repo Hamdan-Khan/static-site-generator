@@ -3,7 +3,7 @@
   <header class="blog-header">
     <h1>{{ title }}</h1>
     {% if date %}
-    <time datetime="{{ date }}">{{ date }}</time>
+    <time class="formatted-date" datetime="{{ date }}">{{ date }}</time>
     {% endif %}
   </header>
   <section class="blog-content">{{ content | safe }}</section>

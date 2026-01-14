@@ -52,3 +52,14 @@ sideprojects:
     github: "https://github.com/Hamdan-Khan/shell"
 
 extratest: un typed extra var
+
+# External blogs
+
+externalblogs:
+  - name: "Test Blog"
+    link: https://google.com
+    platform: "Dev.to"
+
+  - name: "Test Blog 2"
+    link: https://google.com
+    platform: "Medium"
