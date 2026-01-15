@@ -19,6 +19,8 @@ lazy_static! {
 pub fn render_blogs_list(config_context: &Context) -> Result<String, tera::Error>{
     let mut context = Context::from(config_context.clone());
     context.insert("title", "Hamdan Khan");
+    context.insert("path", "blogs.html");
+    context.insert("og_type", "website");
     let rendered = TEMPLATES.render("blog_list.html", &context)?;
     Ok(rendered)
 }
@@ -27,17 +29,21 @@ pub fn render_blogs_list(config_context: &Context) -> Result<String, tera::Error
 pub fn render_home(config_context: &Context) -> Result<String, tera::Error>{
     let mut context = Context::from(config_context.clone());
     context.insert("title", "Hamdan Khan");
+    context.insert("path", "");
+    context.insert("og_type", "website");
 
     let rendered = TEMPLATES.render("home.html", &context)?;
     Ok(rendered)
 }
 
 /** renders given content and metadata into html template */
-pub fn render_html(content: &str, metadata: HashMap<String,String>, config_context: &Context) -> Result<String, tera::Error>{
+pub fn render_html(content: &str, metadata: HashMap<String,String>, config_context: &Context, slug: &str) -> Result<String, tera::Error>{
     let mut context = Context::from(config_context.clone());
     // insert the frontmatter metadata
     context.extend(Context::from_serialize(metadata)?);
     context.insert("content", content);
+    context.insert("path", &format!("{}.html", slug));
+    context.insert("og_type", "article");
 
     let rendered = TEMPLATES.render("blog.html", &context)?;
     Ok(rendered)

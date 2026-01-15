@@ -4,6 +4,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ title }}</title>
+
+    <!-- SEO -->
+    <meta name="description" content="{{ description | default(value="My
+    personal website") }}" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="{{ title }}" />
+    <meta property="og:description" content="{{ description | default(value="My
+    personal website") }}" /> <meta property="og:type" content="{{ og_type |
+    default(value="website") }}" />
+    <meta property="og:url" content="{{ baseurl }}{{ path }}" />
+    {% if socials and socials.website %}
+    <meta property="og:site_name" content="{{ socials.website }}" />
+    {% endif %}
+
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>

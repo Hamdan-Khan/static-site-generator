@@ -66,7 +66,8 @@ fn main() -> io::Result<()> {
         let file_name = relative_path.with_extension("html").display().to_string();
 
         // render parsed content
-        let final_html = renderer::render_html(&parsed_content, front_matter, &config_context).
+        let final_html = renderer::render_html(&parsed_content, front_matter, &config_context,
+            relative_path.file_stem().unwrap().to_str().unwrap()).
             expect("Couldn't render the content");
         
         write_file(file_name, final_html)?;
@@ -84,6 +85,5 @@ fn main() -> io::Result<()> {
 }
 
 // todos:
-// add metadata like description, name, etc. to SEO
 // make parsing of frontmatter more concrete
 // make file discovery recursive

@@ -4,15 +4,12 @@ bio: Software Engineer
 email: hamdankhan212@gmail.com
 description: Test
 
-# Optional
-
 baseurl: /public/
 
 socials:
   github: https://github.com/hamdankhan
   twitter: https://twitter.com/hamdankhan
   linkedin: https://www.linkedin.com/in/hamdankhan
-  website: https://hamdankhan.dev
 
 # Experience
 
