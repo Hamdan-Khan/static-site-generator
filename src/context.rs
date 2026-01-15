@@ -33,6 +33,15 @@ struct Experience {
     description: Option<String>,
 }
 
+#[derive(Deserialize, Serialize, Clone)]
+struct ExternalBlog {
+    title: String,
+    path: String,
+    platform: String,
+    date: String,
+    featured: Option<bool>,
+}
+
 #[derive(Deserialize, Serialize)]
 struct Config {
     name: String,
@@ -43,6 +52,7 @@ struct Config {
     projects: Option<Vec<Project>>,
     sideprojects: Option<Vec<SideProject>>,
     experience: Option<Vec<Experience>>,
+    externalblogs: Option<Vec<ExternalBlog>>,
     #[serde(flatten)]
     extra: HashMap<String, Value>, // un-typed config vars will be stored here
 }
@@ -53,6 +63,7 @@ struct Blog {
     title: String,
     date: Option<String>,
     featured: Option<bool>,
+    platform: Option<String>
 }
 
 pub fn get_config(blog_paths: &Vec<PathBuf>) -> Context
@@ -66,6 +77,7 @@ pub fn get_config(blog_paths: &Vec<PathBuf>) -> Context
     // un-documented extra vars from config (in case I don't want to modify types 
     // just for adding a new field)
     let extra = yaml.extra.clone();
+    let external_blogs_opt = yaml.externalblogs.clone();
 
     let mut context = Context::from_serialize(yaml)
         .expect("Error creating global config context");
@@ -92,7 +104,20 @@ pub fn get_config(blog_paths: &Vec<PathBuf>) -> Context
                 title: front_matter.get("title").unwrap().as_str().to_string(),
                 date: front_matter.get("date").map(|d| d.as_str().to_string()),
                 featured: front_matter.get("featured").map(|d| d.to_lowercase() == "true"),
+                platform: None,
             });
+        }
+
+        if let Some(external_blogs) = external_blogs_opt {
+            for blog in external_blogs {
+                blogs.push(Blog {
+                    path: blog.path,
+                    title: blog.title,
+                    date: Some(blog.date),
+                    featured: blog.featured,
+                    platform: Some(blog.platform),
+                });
+            }
         }
 
         // desc order of date published

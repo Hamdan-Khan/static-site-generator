@@ -26,7 +26,7 @@
 <section class="divider-bottom-border">
   {% if projects %}
   <h2 class="section-header">Projects</h2>
-  <ul class="project-list">
+  <ul class="common-list">
     {% for project in projects %}
     <li class="project-item">
       <span class="item-title">{{ project.name }}</span>:
@@ -49,7 +49,7 @@
   </ul>
   {% endif %} {% if sideprojects %}
   <h3>Other side projects</h3>
-  <ul class="project-list">
+  <ul class="common-list">
     {% for project in sideprojects %}
     <li class="project-item">
       <span class="item-title">{{ project.name }}</span>:
@@ -75,19 +75,25 @@
 {% endif %} {% if featured_blogs %}
 <section class="divider-bottom-border">
   <h2 class="section-header">Featured Blogs</h2>
-  <ul class="plain-list">
+  <ul class="common-list">
     {% for blog in featured_blogs %}
     <li class="blog-item">
       <div class="blog-item-header">
+        {% if blog.platform %}
+        <a href="{{ blog.path }}" target="_blank" class="item-title">
+          {{ blog.title }} ({{ blog.platform }}) ↗
+        </a>
+        {% else %}
         <a href="{{ baseurl }}{{ blog.path }}.html" class="item-title"
           >{{ blog.title }}</a
         >
-        {% if blog.date %}
+        {% endif %} {% if blog.date %}
         <span class="blog-date">{{ blog.date }}</span>
         {% endif %}
       </div>
     </li>
     {% endfor %}
   </ul>
+  <a href="{{ baseurl }}blogs.html">See all blogs...</a>
 </section>
 {% endif %} {% endblock main %}

@@ -48,6 +48,10 @@ body {
   border-bottom: 1px solid #e0e0e0;
 }
 
+.common-list {
+  padding-left: 1.2rem;
+}
+
 .section-header {
   font-size: 1.25rem;
   margin-bottom: 1rem;
@@ -117,10 +121,6 @@ body {
 .project-item {
   margin-bottom: 0.75rem;
   font-size: 0.95rem;
-}
-
-.project-list {
-  padding-left: 1.2rem;
 }
 
 .project-description {
@@ -218,7 +218,7 @@ time {
 
 /* Blog List Styles */
 .blog-item {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.9rem;
 }
 
 .blog-item-header {
@@ -242,23 +242,93 @@ time {
 .blog-header {
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #e0e0e0;
 }
-.blog-header h1 {
+.blog-header h2 {
   margin-top: 0;
   margin-bottom: 0.75rem;
+  line-height: 1.2;
 }
 .blog-header time {
   display: block;
   font-size: 0.95rem;
+  color: #666;
 }
+
+/* Blog Content Styles */
 .blog-content {
-  font-size: 1.05rem;
+  font-size: 1rem;
+  line-height: 1.6;
 }
-.blog-content h2 {
+
+/* Headings inside blog content */
+.blog-content h1 {
+  font-size: 1.5rem;
   margin-top: 2rem;
   margin-bottom: 1rem;
 }
+.blog-content h2 {
+  font-size: 1.3rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+.blog-content h3 {
+  font-size: 1.15rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Paragraphs */
 .blog-content p {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Code Blocks */
+.blog-content pre {
+  background-color: #282c34;
+  color: #abb2bf;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+.blog-content code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+.blog-content p code,
+.blog-content li code {
+  background-color: #f3f3f3;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* Lists */
+.blog-content ul,
+.blog-content ol {
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+.blog-content li {
+  margin-bottom: 0.5rem;
+}
+
+/* Horizontal Rule */
+.blog-content hr {
+  border: 0;
+  border-bottom: 1px solid #e0e0e0;
+  margin: 2.5rem 0;
+}
+
+/* Blockquotes */
+.blog-content blockquote {
+  border-left: 4px solid #e0e0e0;
+  margin: 1.5rem 0;
+  padding: 0.5rem 0 0.5rem 1rem;
+  color: #555;
+  font-style: italic;
+  background-color: #fafafa;
+  border-radius: 0 4px 4px 0;
 }

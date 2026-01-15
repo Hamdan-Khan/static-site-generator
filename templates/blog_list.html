@@ -1,14 +1,19 @@
 {% extends "base.html" %} {% block main %}
 <section class="content-section">
   <h2 class="section-header">Blog Posts</h2>
-  <ul class="plain-list">
+  <ul class="common-list">
     {% for blog in blogs %}
     <li class="blog-item">
       <div class="blog-item-header">
+        {% if blog.platform %}
+        <a href="{{ blog.path }}" target="_blank" class="item-title">
+          {{ blog.title }} ({{ blog.platform }}) ↗
+        </a>
+        {% else %}
         <a href="{{ baseurl }}{{ blog.path }}.html" class="item-title"
           >{{ blog.title }}</a
         >
-        {% if blog.date %}
+        {% endif %} {% if blog.date %}
         <span class="blog-date formatted-date">{{ blog.date }}</span>
         {% endif %}
       </div>

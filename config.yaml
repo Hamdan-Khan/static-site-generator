@@ -56,10 +56,14 @@ extratest: un typed extra var
 # External blogs
 
 externalblogs:
-  - name: "Test Blog"
-    link: https://google.com
+  - title: "lorem lorem ipsem dolor sit amet consectetur adipiscing elit lorem ipsum dolor sit amet consectetur adipiscing elit 2"
+    path: https://google.com
     platform: "Dev.to"
+    date: "14-01-2026"
+    featured: true # optional
 
-  - name: "Test Blog 2"
-    link: https://google.com
+  - title: "Test Blog lorem ipsem dolor sit amet consectetur adipiscing elit lorem ipsum dolor sit amet consectetur adipiscing elit 2"
+    path: https://google.com
     platform: "Medium"
+    date: "01-01-2026"
+    featured: true
