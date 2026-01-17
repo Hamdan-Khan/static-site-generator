@@ -18,7 +18,6 @@ lazy_static! {
 
 pub fn render_blogs_list(config_context: &Context) -> Result<String, tera::Error>{
     let mut context = Context::from(config_context.clone());
-    context.insert("title", "Hamdan Khan");
     context.insert("path", "blogs.html");
     context.insert("og_type", "website");
     let rendered = TEMPLATES.render("blog_list.html", &context)?;
@@ -28,7 +27,6 @@ pub fn render_blogs_list(config_context: &Context) -> Result<String, tera::Error
 /** renders home page */
 pub fn render_home(config_context: &Context) -> Result<String, tera::Error>{
     let mut context = Context::from(config_context.clone());
-    context.insert("title", "Hamdan Khan");
     context.insert("path", "");
     context.insert("og_type", "website");
 
