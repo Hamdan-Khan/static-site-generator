@@ -10,7 +10,7 @@ Blogs, with metadata / SEO, can be written in the `content/` directory using mar
 
 ## Usage
 
-I use github actions to compile the rust code and release the [binary](github.com/Hamdan-Khan/static-site-generator/releases/latest/).
+I use github actions to compile the rust code and release the [binary](https://github.com/Hamdan-Khan/static-site-generator/releases/latest/).
 
 And in my target repository i.e. where I want to use the SSG, I use github actions workflow (example of [my site's workflow](https://github.com/Hamdan-Khan/Hamdan-Khan.github.io/blob/master/.github/workflows/deploy.yml)) to download the released binary, perform SSG, and deploy the code to github pages.
 
