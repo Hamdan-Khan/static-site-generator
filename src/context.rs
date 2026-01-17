@@ -88,7 +88,7 @@ pub fn get_config(blog_paths: &Vec<PathBuf>) -> Context
     }
 
     // if blog files exist, add their names lists into context to generate nav and stuff
-    if blog_paths.len() > 0{
+    if blog_paths.len() > 0 || external_blogs_opt.is_some() {
         let mut blogs: Vec<Blog> = vec![];
         for path in blog_paths {
             let md_content = fs::read_to_string(path)
