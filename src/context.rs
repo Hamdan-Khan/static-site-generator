@@ -99,8 +99,10 @@ pub fn get_config(blog_paths: &Vec<PathBuf>) -> Context
                 .expect("Error parsing content or front matter");
 
             // adds frontmatter metadata to context
+            let slug = get_stripped_filename(path)
+                .file_stem().unwrap().to_str().unwrap().to_string();
             blogs.push(Blog {
-                path: get_stripped_filename(path).with_extension("").to_str().unwrap().to_string(),
+                path: format!("blog/{}", slug),
                 title: front_matter.get("title").unwrap().as_str().to_string(),
                 date: front_matter.get("date").map(|d| d.as_str().to_string()),
                 featured: front_matter.get("featured").map(|d| d.to_lowercase() == "true"),

@@ -12,9 +12,7 @@
           {{ blog.title }} ({{ blog.platform }}) ↗
         </a>
         {% else %}
-        <a href="{{ baseurl }}{{ blog.path }}.html" class="item-title"
-          >{{ blog.title }}</a
-        >
+        <a href="{{ baseurl }}blog/{{ blog.path }}" class="item-title">{{ blog.title }}</a>
         {% endif %} {% if blog.date %}
         <span class="blog-date formatted-date">{{ blog.date }}</span>
         {% endif %}

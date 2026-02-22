@@ -48,9 +48,10 @@ fn main() -> io::Result<()> {
 
     // blog list page
     if config_context.contains_key("blogs") {
+        fs::create_dir_all(format!("{}/blog", BUILD_DIR))?;
         let blogs_list_page = renderer::render_blogs_list(&config_context)
-        .expect("Couldn't render blog list page");
-        write_file( "blogs.html".to_string(), blogs_list_page)?;
+            .expect("Couldn't render blog list page");
+        write_file("blog/index.html".to_string(), blogs_list_page)?;
     }
 
     // process and render every md file for blogs
@@ -61,14 +62,16 @@ fn main() -> io::Result<()> {
         let (parsed_content, front_matter) = parse_content(md_content.as_str())
             .expect("Error parsing content or front matter");
         
-        // construct file name
+        // construct output path: public/blog/{slug}/index.html
         let relative_path = get_stripped_filename(p);
-        let file_name = relative_path.with_extension("html").display().to_string();
+        let slug = relative_path.file_stem().unwrap().to_str().unwrap();
+        let blog_dir = format!("{}/blog/{}", BUILD_DIR, slug);
+        fs::create_dir_all(&blog_dir)?;
+        let file_name = format!("blog/{}/index.html", slug);
 
         // render parsed content
-        let final_html = renderer::render_html(&parsed_content, front_matter, &config_context,
-            relative_path.file_stem().unwrap().to_str().unwrap()).
-            expect("Couldn't render the content");
+        let final_html = renderer::render_html(&parsed_content, front_matter, &config_context, slug)
+            .expect("Couldn't render the content");
         
         write_file(file_name, final_html)?;
     }
