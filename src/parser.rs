@@ -7,7 +7,7 @@ pub struct ParsedContent {
 }
 
 // allowed front matter fields
-const METADATA: [&str; 5] = ["title", "description", "layout", "date", "featured", "ogImage"];
+const METADATA: [&str; 6] = ["title", "description", "layout", "date", "featured", "ogImage"];
 const REQUIRED_METADATA: [&str; 2] = ["title", "date"];
 
 /**
