@@ -46,3 +46,8 @@ pub fn render_html(content: &str, metadata: HashMap<String,String>, config_conte
     let rendered = TEMPLATES.render("blog.html", &context)?;
     Ok(rendered)
 }
+
+pub fn render_sitemap(config_context: &Context) -> Result<String, tera::Error>{
+    let rendered = TEMPLATES.render("sitemap.xml", config_context)?;
+    Ok(rendered)
+}

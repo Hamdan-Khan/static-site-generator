@@ -18,6 +18,7 @@ const BUILD_DIR : &str = "public";
 const CONFIG_FILE : &str = "config.yaml";
 
 fn main() -> io::Result<()> {
+    let start = std::time::Instant::now();
     let content_dir = Path::new(CONTENT_DIR);
     let build_dir = Path::new(BUILD_DIR);
     let mut file_paths: Vec<PathBuf> = vec![];
@@ -39,12 +40,20 @@ fn main() -> io::Result<()> {
     }
     fs::create_dir_all(BUILD_DIR)?;
 
+    // context from config.yaml and blog files 
+    // (such as list of blog's metadata and featured blogs)
     let config_context = get_config(&file_paths);
 
     // main file for home page
     let index_page = renderer::render_home(&config_context)
         .expect("Couldn't render home page");
     write_file( "index.html".to_string(), index_page)?;
+
+    // sitemap
+    let sitemap = renderer::render_sitemap(&config_context)
+        .expect("Couldn't render sitemap");
+    write_file("sitemap.xml".to_string(), sitemap)?;
+    println!("Generated sitemap.xml");
 
     // blog list page
     if config_context.contains_key("blogs") {
@@ -84,6 +93,8 @@ fn main() -> io::Result<()> {
         fs::copy(&static_file_path,format!("{0}/{1}", BUILD_DIR, relative_path.display().to_string()))?;
     }
 
+    let duration = start.elapsed();
+    println!("Took {:?} to build the site", duration);
     Ok(())
 }
 
