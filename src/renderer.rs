@@ -64,7 +64,7 @@ pub fn render_sitemap(config_context: &Context) -> Result<String, tera::Error> {
             native_blogs.push(b);
         }
     }
-    let mut context = Context::new();
+    let mut context = Context::from(config_context.clone());
     context.insert("blogs", &native_blogs);
     let rendered = TEMPLATES.render("sitemap.xml", &context)?;
     Ok(rendered)
