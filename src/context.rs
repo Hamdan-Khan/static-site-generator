@@ -1,13 +1,13 @@
-use std::fs;
-use chrono::NaiveDate;
-use std::collections::HashMap;
-use std::path::PathBuf;
-use serde::{Deserialize, Serialize};
-use serde_yaml::Value;
-use tera::Context;
+use crate::CONFIG_FILE;
 use crate::parse_content;
 use crate::utils::get_stripped_filename;
-use crate::{CONFIG_FILE};
+use chrono::NaiveDate;
+use serde::{Deserialize, Serialize};
+use serde_yaml::Value;
+use std::collections::HashMap;
+use std::fs;
+use std::path::PathBuf;
+use tera::Context;
 
 #[derive(Deserialize, Serialize)]
 struct Project {
@@ -20,7 +20,7 @@ struct Project {
 #[derive(Deserialize, Serialize)]
 struct SideProject {
     #[serde(flatten)]
-    project: Project
+    project: Project,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -58,29 +58,26 @@ struct Config {
 }
 
 #[derive(Deserialize, Serialize)]
-struct Blog {
+pub struct Blog {
     path: String,
     title: String,
     date: Option<String>,
     featured: Option<bool>,
-    platform: Option<String>
+    platform: Option<String>,
 }
 
-pub fn get_config(blog_paths: &Vec<PathBuf>) -> Context
-{
+pub fn get_config(blog_paths: &Vec<PathBuf>) -> Context {
     let config = fs::read_to_string(CONFIG_FILE)
         .expect("Error reading configuration (config.yaml) from root dir");
 
-    let yaml : Config = serde_yaml::from_str(config.as_str())
-        .expect("Error parsing YAML");
+    let yaml: Config = serde_yaml::from_str(config.as_str()).expect("Error parsing YAML");
 
-    // un-documented extra vars from config (in case I don't want to modify types 
+    // un-documented extra vars from config (in case I don't want to modify types
     // just for adding a new field)
     let extra = yaml.extra.clone();
     let external_blogs_opt = yaml.externalblogs.clone();
 
-    let mut context = Context::from_serialize(yaml)
-        .expect("Error creating global config context");
+    let mut context = Context::from_serialize(yaml).expect("Error creating global config context");
 
     // insert flattened extra vars into context
     for (key, value) in &extra {
@@ -91,21 +88,26 @@ pub fn get_config(blog_paths: &Vec<PathBuf>) -> Context
     if blog_paths.len() > 0 || external_blogs_opt.is_some() {
         let mut blogs: Vec<Blog> = vec![];
         for path in blog_paths {
-            let md_content = fs::read_to_string(path)
-                .expect("Error reading blog file");
+            let md_content = fs::read_to_string(path).expect("Error reading blog file");
 
             // gets parsed frontmatter from blog contents
-            let (_, front_matter) = parse_content(md_content.as_str())
-                .expect("Error parsing content or front matter");
+            let (_, front_matter) =
+                parse_content(md_content.as_str()).expect("Error parsing content or front matter");
 
             // adds frontmatter metadata to context
             let slug = get_stripped_filename(path)
-                .file_stem().unwrap().to_str().unwrap().to_string();
+                .file_stem()
+                .unwrap()
+                .to_str()
+                .unwrap()
+                .to_string();
             blogs.push(Blog {
                 path: format!("blog/{}", slug),
                 title: front_matter.get("title").unwrap().as_str().to_string(),
                 date: front_matter.get("date").map(|d| d.as_str().to_string()),
-                featured: front_matter.get("featured").map(|d| d.to_lowercase() == "true"),
+                featured: front_matter
+                    .get("featured")
+                    .map(|d| d.to_lowercase() == "true"),
                 platform: None,
             });
         }
@@ -124,17 +126,24 @@ pub fn get_config(blog_paths: &Vec<PathBuf>) -> Context
 
         // desc order of date published
         blogs.sort_by(|a, b| {
-            let date_a = a.date.as_ref().and_then(|d| NaiveDate::parse_from_str(d, "%d-%m-%Y").ok());
-            let date_b = b.date.as_ref().and_then(|d| NaiveDate::parse_from_str(d, "%d-%m-%Y").ok());
+            let date_a = a
+                .date
+                .as_ref()
+                .and_then(|d| NaiveDate::parse_from_str(d, "%d-%m-%Y").ok());
+            let date_b = b
+                .date
+                .as_ref()
+                .and_then(|d| NaiveDate::parse_from_str(d, "%d-%m-%Y").ok());
             date_b.cmp(&date_a)
         });
         context.insert("blogs", &blogs);
 
         // blogs with featured flag in front matter
-        let featured_blogs: Vec<&Blog> = blogs.iter()
+        let featured_blogs: Vec<&Blog> = blogs
+            .iter()
             .filter(|blog| blog.featured.unwrap_or(false))
             .collect();
-        
+
         if !featured_blogs.is_empty() {
             context.insert("featured_blogs", &featured_blogs);
         }

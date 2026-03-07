@@ -1,21 +1,21 @@
+mod context;
 mod parser;
 mod renderer;
 mod utils;
-mod context;
-use std::fs;
-use std::io;
-use std::path::{Path, PathBuf};
 use crate::context::get_config;
 use crate::parser::parse_content;
 use crate::utils::get_stripped_filename;
 use crate::utils::write_file;
+use std::fs;
+use std::io;
+use std::path::{Path, PathBuf};
 
 // dirs
-const CONTENT_DIR : &str = "content";
-const STATIC_DIR : &str = "static";
-const BUILD_DIR : &str = "public";
+const CONTENT_DIR: &str = "content";
+const STATIC_DIR: &str = "static";
+const BUILD_DIR: &str = "public";
 // files
-const CONFIG_FILE : &str = "config.yaml";
+const CONFIG_FILE: &str = "config.yaml";
 
 fn main() -> io::Result<()> {
     let start = std::time::Instant::now();
@@ -27,7 +27,7 @@ fn main() -> io::Result<()> {
     if content_dir.exists() {
         for entry in fs::read_dir(content_dir)? {
             let path = entry?.path();
-            println!("Found blog file: {}",path.display());
+            println!("Found blog file: {}", path.display());
             if path.extension().and_then(|e| e.to_str()) == Some("md") {
                 file_paths.push(path);
             }
@@ -40,37 +40,35 @@ fn main() -> io::Result<()> {
     }
     fs::create_dir_all(BUILD_DIR)?;
 
-    // context from config.yaml and blog files 
+    // context from config.yaml and blog files
     // (such as list of blog's metadata and featured blogs)
     let config_context = get_config(&file_paths);
 
     // main file for home page
-    let index_page = renderer::render_home(&config_context)
-        .expect("Couldn't render home page");
-    write_file( "index.html".to_string(), index_page)?;
+    let index_page = renderer::render_home(&config_context).expect("Couldn't render home page");
+    write_file("index.html".to_string(), index_page)?;
 
     // sitemap
-    let sitemap = renderer::render_sitemap(&config_context)
-        .expect("Couldn't render sitemap");
+    let sitemap = renderer::render_sitemap(&config_context).expect("Couldn't render sitemap");
     write_file("sitemap.xml".to_string(), sitemap)?;
     println!("Generated sitemap.xml");
 
     // blog list page
     if config_context.contains_key("blogs") {
         fs::create_dir_all(format!("{}/blog", BUILD_DIR))?;
-        let blogs_list_page = renderer::render_blogs_list(&config_context)
-            .expect("Couldn't render blog list page");
+        let blogs_list_page =
+            renderer::render_blogs_list(&config_context).expect("Couldn't render blog list page");
         write_file("blog/index.html".to_string(), blogs_list_page)?;
     }
 
     // process and render every md file for blogs
     for p in &file_paths {
         let md_content = fs::read_to_string(p)?;
-        
+
         // parses md content into html
-        let (parsed_content, front_matter) = parse_content(md_content.as_str())
-            .expect("Error parsing content or front matter");
-        
+        let (parsed_content, front_matter) =
+            parse_content(md_content.as_str()).expect("Error parsing content or front matter");
+
         // construct output path: public/blog/{slug}/index.html
         let relative_path = get_stripped_filename(p);
         let slug = relative_path.file_stem().unwrap().to_str().unwrap();
@@ -79,18 +77,23 @@ fn main() -> io::Result<()> {
         let file_name = format!("blog/{}/index.html", slug);
 
         // render parsed content
-        let final_html = renderer::render_html(&parsed_content, front_matter, &config_context, slug)
-            .expect("Couldn't render the content");
-        
+        let final_html =
+            renderer::render_html(&parsed_content, front_matter, &config_context, slug)
+                .expect("Couldn't render the content");
+
         write_file(file_name, final_html)?;
     }
 
     // copy static files into build dir
     for static_file in fs::read_dir(STATIC_DIR)? {
         let static_file_path = static_file?.path();
-        let relative_path = static_file_path.strip_prefix(&STATIC_DIR)
+        let relative_path = static_file_path
+            .strip_prefix(&STATIC_DIR)
             .expect("path not present in the specified content dir");
-        fs::copy(&static_file_path,format!("{0}/{1}", BUILD_DIR, relative_path.display().to_string()))?;
+        fs::copy(
+            &static_file_path,
+            format!("{0}/{1}", BUILD_DIR, relative_path.display().to_string()),
+        )?;
     }
 
     let duration = start.elapsed();
