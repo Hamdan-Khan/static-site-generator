@@ -8,6 +8,10 @@ Its built for the purpose of a simple personal site with blogging support. The t
 
 Blogs, with metadata / SEO, can be written in the `content/` directory using markdown + frontmatter.
 
+## Working
+
+![flow](./working.png)
+
 ## Usage
 
 I use github actions to compile the rust code and release the [binary](https://github.com/Hamdan-Khan/static-site-generator/releases/latest/).
